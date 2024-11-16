@@ -1,0 +1,67 @@
+{
+  "expo": {
+    "name": "frontend",
+    "slug": "frontend",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.anonymous.frontend"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      },
+      "package": "com.anonymous.frontend"
+    },
+    "web": {
+      "favicon": "./assets/favicon.png",
+      "config": {
+        "firebase": {
+          "apiKey": "AIzaSyDjPGDgGs0CLfYHqjFSBjxj6elKM9oJnok",
+          "authDomain": "tiktok-clone-32fdc.firebaseapp.com",
+          "databaseURL": "https://tiktok-clone-32fdc-default-rtdb.firebaseio.com",
+          "projectId": "tiktok-clone-32fdc",
+          "storageBucket": "tiktok-clone-32fdc.appspot.com",
+          "messagingSenderId": "732533980352",
+          "appId": "1:732533980352:web:a203f754c74ba1cd90c125",
+          "measurementId": "G-DKPN99GQPM"
+        }
+      }
+    },
+    "plugins": [
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Allow 111 to access your camera",
+          "microphonePermission": "Allow 111 to access your microphone",
+          "recordAudioAndroid": true
+        }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "The app accesses your photos to let you share them with your friends."
+        }
+      ],
+      [
+        "expo-media-library",
+        {
+          "photosPermission": "Allow 111 to access your photos.",
+          "savePhotosPermission": "Allow 111 to save photos.",
+          "isAccessMediaLocationEnabled": true
+        }
+      ],
+      "expo-router",
+      "react-native-video"
+    ]
+  }
+}

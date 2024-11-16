@@ -1,0 +1,12 @@
+{
+  "projects": {
+    "default": "tiktok-clone-32fdc"
+  },
+  "targets": {},
+  "etags": {
+    "tiktok-clone-32fdc": {
+      "extensionInstances": {}
+    }
+  },
+  "dataconnectEmulatorConfig": {}
+}
