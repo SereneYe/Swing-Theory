@@ -35,7 +35,7 @@ export default function RelaxDetailScreen() {
       file: require("../../assets/animations/dynamic-chest-shoulders-stretching.json"),
       title: "Dynamic Chest & Shoulders Stretching",
       description: "A great way to stretch your chest and shoulders.",
-      color: "#FFD1E3",
+      color: "#f6cedc",
     },
     {
       file: require("../../assets/animations/dynamic-chest-stretching.json"),
@@ -49,28 +49,28 @@ export default function RelaxDetailScreen() {
       file: require("../../assets/animations/overhead-tricep-stretching.json"),
       title: "Overhead Tricep Stretching",
       description: "Strengthen and tone your triceps with overhead stretching.",
-      color: "#FADAAD",
+      color: "#fdedc9",
     },
     {
       file: require("../../assets/animations/rear-deltoid-shoulders-stretching.json"),
       title: "Rear Deltoid & Shoulders Stretching",
       description:
         "Improve the flexibility and strength of your rear deltoids and shoulders.",
-      color: "#D4E7B5",
+      color: "#e9f8d4",
     },
     {
       file: require("../../assets/animations/side-lunge-stretching.json"),
       title: "Side Lunge Stretching",
       description:
         "Boost your lower body strength and balance with side lunge stretches.",
-      color: "#FFBED6",
+      color: "#fdd5e3",
     },
     {
       file: require("../../assets/animations/standing-quadricep-stretching.json"),
       title: "Standing Quadricep Stretching",
       description:
         "Reduce risk of injury and improve flexibility with standing quadricep stretches.",
-      color: "#B9DDFE",
+      color: "#cce4fb",
     },
   ];
 

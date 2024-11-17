@@ -85,6 +85,11 @@ const styles = StyleSheet.create({
     width: "100%",
     height: 8,
   },
+  timerText: {
+    fontSize: 48,
+    fontWeight: theme.fonts.bold,
+    color:"white",
+  },
 });
 
 export default styles;

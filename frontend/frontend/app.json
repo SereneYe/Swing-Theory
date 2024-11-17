@@ -62,6 +62,7 @@
       ],
       "expo-router",
       "react-native-video"
+
     ]
   }
 }

@@ -132,6 +132,7 @@ async function updateUserDetail(userId, userData) {
   }
 }
 
+
 let storageRef;
 export const createImage = (image) =>
   new Promise(async (resolve, reject) => {

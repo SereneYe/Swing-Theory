@@ -10,6 +10,8 @@ import { getStorage } from "firebase/storage";
 import { getFirestore } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 
+
+
 const store = createStore(rootReducer, applyMiddleware(thunk));
 
 firebaseConfig = {

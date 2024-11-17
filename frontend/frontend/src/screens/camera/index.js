@@ -11,8 +11,9 @@ import { useDispatch } from "react-redux";
 import { useIsFocused } from "@react-navigation/native";
 import * as ImagePicker from "expo-image-picker";
 import * as MediaLibrary from "expo-media-library";
+import * as FileSystem from "expo-file-system";
 import { createPost } from "../../redux/actions";
-// import CircularProgress from "react-native-circular-progress-indicator";
+import { CountdownCircleTimer } from 'react-native-countdown-circle-timer'
 import CountdownBar from "react-native-countdown-bar";
 import { GalleryIcon, ArrowLeftIcon } from "../../components/icons/icons";
 import Button from "../../components/button";
@@ -48,6 +49,8 @@ export default function CameraScreen({ route, navigation }) {
     require("../../assets/voice/8.mp3"),
     require("../../assets/voice/9.mp3"),
   ];
+  const [timeLeft, setTimeLeft] = useState(5); // 倒计时初始时间 (秒)
+  const circularProgressRef = useRef(null);
 
   if (!cameraPermission || !audioPermission || !mediaLibraryPermission) {
     return <View />;
@@ -107,12 +110,14 @@ export default function CameraScreen({ route, navigation }) {
 
       if (i === 0) {
         playBeginSound();
-      } else if (i === turnPreference - 1) {
-        playLastSound();
-      } else {
-        playSound();
       }
+      // else if (i === turnPreference - 1) {
+      //   playLastSound();
+      // }
+      else {
+        playSound();
 
+      }
       await new Promise((resolve) => setTimeout(resolve, 4550));
       playAlertSound();
       await new Promise((resolve) => setTimeout(resolve, 450));
@@ -123,6 +128,7 @@ export default function CameraScreen({ route, navigation }) {
         videoAddresses.push(videoAddr);
       }
     }
+    playFinishSound();
     setFinishedRecording(true);
     await stopRecording();
     for (let i = 0; i < videoAddresses.length; i++) {
@@ -148,7 +154,7 @@ export default function CameraScreen({ route, navigation }) {
     if (videoPromise) {
       console.log("Video recorded", videoPromise.uri);
       setIsRecording(false);
-      await saveVideoToLibrary(videoPromise.uri);
+      // await saveVideoToLibrary(videoPromise.uri);
       return videoPromise.uri;
     }
     return null;
@@ -182,14 +188,28 @@ export default function CameraScreen({ route, navigation }) {
     }
   };
 
-  const saveVideoToLibrary = async (uri) => {
-    try {
-      await MediaLibrary.saveToLibraryAsync(uri);
-      console.log("Video saved to media library");
-    } catch (error) {
-      console.error("Error saving video to library:", error.message);
-    }
-  };
+  // const saveVideoToLibrary = async (uri) => {
+  //   try {
+  //     // Check permissions
+  //     const { status } = await MediaLibrary.requestPermissionsAsync();
+  //     if (status !== "granted") {
+  //       throw new Error("Media library permissions not granted");
+  //     }
+  //
+  //     // Check whether the video exists
+  //     const fileInfo = await FileSystem.getInfoAsync(uri);
+  //     if (!fileInfo.exists) {
+  //       throw new Error("File does not exist");
+  //     }
+  //
+  //     // Save the video to album
+  //     await MediaLibrary.createAssetAsync(uri);
+  //     await MediaLibrary.createAlbumAsync("Videos", asset, false);
+  //     console.log("Video saved successfully to media library");
+  //   } catch (error) {
+  //     console.error("Error saving video to library:", error.message);
+  //   }
+  // };
 
   async function playSound() {
     console.log("Loading Sound");
@@ -200,7 +220,6 @@ export default function CameraScreen({ route, navigation }) {
   }
 
   async function playBeginSound() {
-    console.log("Loading Sound");
     const { sound } = await Audio.Sound.createAsync(
       require("../../assets/voice/b.mp3")
     );
@@ -209,22 +228,27 @@ export default function CameraScreen({ route, navigation }) {
     await sound.playAsync();
   }
 
-  async function playLastSound() {
-    console.log("Loading Sound");
+  // async function playLastSound() {
+  //   const { sound } = await Audio.Sound.createAsync(
+  //     require("../../assets/voice/l.mp3")
+  //   );
+  //   setSound(sound);
+  //   await sound.playAsync();
+  // }
 
+  async function playAlertSound() {
     const { sound } = await Audio.Sound.createAsync(
-      require("../../assets/voice/l.mp3")
+      require("../../assets/voice/alert.mp3")
     );
     setSound(sound);
     await sound.playAsync();
   }
 
-  async function playAlertSound() {
-    console.log("Loading Sound");
-
+  async function playFinishSound() {
     const { sound } = await Audio.Sound.createAsync(
-      require("../../assets/voice/alert.mp3")
+        require("../../assets/voice/f.m4a")
     );
+
     setSound(sound);
     await sound.playAsync();
   }
@@ -239,6 +263,7 @@ export default function CameraScreen({ route, navigation }) {
   // }, [sound]);
 
   if (finishedRecording) {
+
     return <RelaxDetailScreen />;
   }
 
@@ -289,18 +314,20 @@ export default function CameraScreen({ route, navigation }) {
 
           {showProgress ? (
             <View style={styles.counterCircularProgress}>
-              <CircularProgress
-                value={0}
-                radius={80}
-                maxValue={5}
-                initialValue={5}
-                progressValueColor={"#fff"}
-                activeStrokeWidth={15}
-                inActiveStrokeWidth={15}
-                duration={5000}
-              />
+              <CountdownCircleTimer
+                  isPlaying
+                  duration={5}
+                  strokeWidth={14}
+                  colors={['#78c24e', '#ffc100', '#b40101']}
+                  colorsTime={[5, 3, 0]}
+              >
+                {({ remainingTime }) => <Text style={styles.timerText}>{remainingTime}</Text>}
+              </CountdownCircleTimer>
+
+
             </View>
           ) : null}
+
         </CameraView>
       ) : null}
 
