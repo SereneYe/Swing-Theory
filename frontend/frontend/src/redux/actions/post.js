@@ -1,7 +1,7 @@
 import uuid from "uuid-random";
 import { backendURL } from "../../constants/backendURL";
 
-let getAuth, auth, getFirestore, firestore, Timestamp;
+let getAuth, auth, getFirestore, firestore, Timestamp, doc, setDoc;
 
 const importFirestoreFunctions = async () => {
   const appModule = await import("../../../App");
@@ -10,7 +10,7 @@ const importFirestoreFunctions = async () => {
   getFirestore = firestoreModule.getFirestore;
   firestore = getFirestore(app);
   Timestamp = firestoreModule.Timestamp;
-  doc = firestoreModule.doc;
+    doc = firestoreModule.doc;
   setDoc = firestoreModule.setDoc;
 };
 
@@ -40,7 +40,7 @@ initializeFirebase();
 
 let storageRef;
 
-export const createPost =
+export const createPractice =
   (video, roundId, turnPreference, practiceType) => async () =>
     new Promise(async (resolve, reject) => {
       if (!auth.currentUser || !firestore) {
@@ -51,7 +51,7 @@ export const createPost =
       let storagePostId = uuid();
       storageRef = ref(
         storage,
-        `posts/${auth.currentUser.uid}/${storagePostId}`
+        `practices/${auth.currentUser.uid}/${storagePostId}`
       );
       const metadata = {
         contentType: "video/mp4",
@@ -112,7 +112,6 @@ export const createPost =
 
                   // TODO: Uncomment this line to send the post data to the backend
                   // await sendPostData(postData, reject);
-
                   resolve();
                 }
               );
@@ -138,3 +137,4 @@ async function sendPostData(postData, reject) {
     reject();
   }
 }
+

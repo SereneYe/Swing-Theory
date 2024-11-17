@@ -12,15 +12,17 @@ import {
 import styles from "./styles";
 import { Feather } from "@expo/vector-icons";
 import { useDispatch } from "react-redux";
-import { createPost } from "../../redux/actions";
+import { createPractice } from "../../redux/actions";
 import * as VideoThumbnails from "expo-video-thumbnails";
-import Analysising from "../analysising/index.js";
+import uuid from "uuid-random";
+import RelaxDetailScreen from "../relaxDetails";
 
 export default function SavePostScreen(props) {
   const [previewImage, setPreviewImage] = useState(null);
   const [description, setDescription] = useState("");
   const [requestRunning, setRequestRunning] = useState(false);
   const navigation = useNavigation();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     generateThumbnail();
@@ -40,26 +42,27 @@ export default function SavePostScreen(props) {
     }
   };
 
-  const dispatch = useDispatch();
   const handleSavePost = () => {
     setRequestRunning(true);
+    let roundId = uuid();
+    let turnPreference = 1;
+    let practiceType = "Forehand";
     console.log("Dispatching createPost");
-    dispatch(createPost(description, props.route.params.source))
+    dispatch(createPractice(props.route.params.source,roundId,turnPreference,practiceType))
       .then(() => {
-        console.log("createPost dispatched successfully. Navigating to top...");
-        navigation.dispatch(StackActions.popToTop());
+        console.log("create practice dispatched successfully. Navigating to top...");
+        navigation.navigate('home');
       })
       .catch((error) => {
-        console.log("Dispatching createPost failed:", error);
+        console.log("Dispatching createPractice failed:", error);
       })
       .finally(() => {
-        // Ensure requestRunning is set to false when createPost operation is completed
         setRequestRunning(false);
       });
   };
 
   if (requestRunning) {
-    return <Analysising />;
+    return <RelaxDetailScreen/>;
   }
 
   return (

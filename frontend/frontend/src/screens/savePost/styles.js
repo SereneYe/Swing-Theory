@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
   postButton: {
     alignItems: "center",
     flex: 1,
-    backgroundColor: "#ff4040",
+    backgroundColor: "#b40101",
     flexDirection: "row",
     paddingVertical: 10,
     paddingHorizontal: 20,
@@ -73,10 +73,10 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   analysisingText: {
-    marginTop: 10, // Adding space above the text
-    fontSize: 18, // Sets font size
-    color: "#555", // Sets text color
-    textAlign: "center", // Align text to center
+    marginTop: 10,
+    fontSize: 18,
+    color: "#555",
+    textAlign: "center",
   },
 });
 

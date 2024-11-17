@@ -3,18 +3,17 @@ import { View } from "react-native";
 import { LogBox } from 'react-native';
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import {
-  HomeIcon,
-  AddIcon,
-  UserIcon,
-  TennisIcon,
+    HomeIcon,
+    AddIcon,
+    UserIcon,
+    TennisIcon, PostIcon,
 } from "../../components/icons/icons";
 import { theme } from "../../constants/theme";
 import HomeScreen from "../../screens/home";
 import ProfileScreen from "../../screens/profile";
 import HistoryScreen from "../../screens/history";
 import SelectScreen from "../../screens/cameraSelect";
-import ResultScreen from "../../screens/result";
-import SummaryScreen from "../../screens/summary";
+import NewPostScreen from "../../screens/addPost";
 
 
 LogBox.ignoreLogs([
@@ -42,7 +41,6 @@ export default function MainScreen() {
     >
       <Tab.Screen
         name="Home"
-        key="Home"
         component={HomeScreen}
         options={{
           tabBarIcon: ({ color }) => <HomeIcon color={color} />,
@@ -50,8 +48,7 @@ export default function MainScreen() {
       />
 
       <Tab.Screen
-        name="Add"
-        key="Add"
+        name="Practice"
         component={SelectScreen}
         options={{
           tabBarIcon: ({ color }) => <AddIcon color={color} />,
@@ -60,23 +57,21 @@ export default function MainScreen() {
 
       <Tab.Screen
         name="History"
-        key="History"
         component={HistoryScreen}
         options={{
           tabBarIcon: ({ color }) => <TennisIcon color={color} />,
         }}
       />
-      {/* <Tab.Screen
-        name="Result"
-        component={ResultScreen}
+      <Tab.Screen
+        name="Post"
+        component={NewPostScreen}
         options={{
-          tabBarIcon: ({ color }) => <TennisIcon color={color} />,
+          tabBarIcon: ({ color }) => <PostIcon color={color} />,
         }}
-      /> */}
+      />
 
       <Tab.Screen
         name="Me"
-        key="Me"
         component={ProfileScreen}
         options={{
           tabBarIcon: ({ color }) => <UserIcon color={color} />,

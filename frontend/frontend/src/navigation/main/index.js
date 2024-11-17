@@ -5,8 +5,6 @@ import SavePostScreen from "../../screens/savePost";
 import WelcomeScreen from "../../screens/welcome";
 import LoginScreen from "../../screens/login";
 import CameraScreen from "../../screens/camera";
-import VideoPlayerScreen from "../../screens/video";
-
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { CardStyleInterpolators } from "@react-navigation/stack";
@@ -23,6 +21,7 @@ import HistoryDetailScreen from "../../screens/historyDetail";
 import RelaxDetailScreen from "../../screens/relaxDetails";
 import ResultScreen from "../../screens/result";
 import SummaryScreen from "../../screens/summary";
+import NewPostScreen from "../../screens/addPost";
 
 const Stack = createStackNavigator();
 
@@ -67,12 +66,6 @@ export default function Route() {
               component={HomeScreen}
               options={{ headerShown: false }}
             />
-            <Stack.Screen
-              name="videoPlayer"
-              component={VideoPlayerScreen}
-              options={{ headerShown: false }}
-            />
-
             <Stack.Screen
               name="main"
               component={MailIcon}
@@ -147,6 +140,11 @@ export default function Route() {
               component={SummaryScreen}
               options={{ headerShown: false }}
             />
+              <Stack.Screen
+                  name="post"
+                  component={NewPostScreen}
+                  options={{ headerShown: false }}
+              />
           </>
         )}
       </Stack.Navigator>

@@ -2,9 +2,6 @@ import {
   View,
   Text,
   TouchableOpacity,
-  Alert,
-  Image,
-  FlatList,
 } from "react-native";
 import React from "react";
 import { theme } from "../../constants/theme";
@@ -12,10 +9,8 @@ import { hp, wp } from "../../constants/common";
 import RenderHtml from "react-native-render-html";
 import { Video } from "expo-av";
 import Avatar from "../avartar/index";
-import * as Progress from "react-native-progress";
-import { ThreeDotIcon, TrashIcon } from "../icons/icons";
-import { HistoryCardImageContainer } from "../historyCardImage";
-import { styles, tagsStyles, shadowStyles } from "../recordCard/styles";
+import { ThreeDotIcon } from "../icons/icons";
+import { styles, tagsStyles, shadowStyles } from "./styles";
 
 const RecordCard = ({
   item,
@@ -25,7 +20,6 @@ const RecordCard = ({
   hasShadow = true,
 }) => {
   const htmlBody = { html: item?.body };
-
   const openPostDetails = () => {
     navigation.navigate("historyDetail", { historyId: item.recordId });
   };

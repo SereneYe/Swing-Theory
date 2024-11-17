@@ -69,7 +69,6 @@ const HomeScreen = () => {
                             horizontal
                             style={{paddingBottom: 20, paddingTop: 10}}
                             showsHorizontalScrollIndicator={false}
-                            contentContainerStyle={{paddingHorizontal: 16}}
                         >
                             {videoData.map((video, index) => (
                                 <VideoPlay

@@ -1,6 +1,6 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, {  useRef, useState } from "react";
 import Feather from "react-native-vector-icons/Feather";
-import { View, Text, TouchableOpacity, Image, Pressable } from "react-native";
+import { View, Text, TouchableOpacity,  Pressable } from "react-native";
 import {
   CameraView,
   useCameraPermissions,
@@ -11,8 +11,7 @@ import { useDispatch } from "react-redux";
 import { useIsFocused } from "@react-navigation/native";
 import * as ImagePicker from "expo-image-picker";
 import * as MediaLibrary from "expo-media-library";
-import * as FileSystem from "expo-file-system";
-import { createPost } from "../../redux/actions";
+import {createPractice} from "../../redux/actions";
 import { CountdownCircleTimer } from 'react-native-countdown-circle-timer'
 import CountdownBar from "react-native-countdown-bar";
 import { GalleryIcon, ArrowLeftIcon } from "../../components/icons/icons";
@@ -20,6 +19,7 @@ import Button from "../../components/button";
 import uuid from "uuid-random";
 import RelaxDetailScreen from "../relaxDetails";
 import { Audio } from "expo-av";
+
 
 export default function CameraScreen({ route, navigation }) {
   const [facing, setFacing] = useState("back");
@@ -116,7 +116,6 @@ export default function CameraScreen({ route, navigation }) {
       // }
       else {
         playSound();
-
       }
       await new Promise((resolve) => setTimeout(resolve, 4550));
       playAlertSound();
@@ -166,12 +165,12 @@ export default function CameraScreen({ route, navigation }) {
     turnPreference,
     practiceType
   ) => {
-    await dispatch(createPost(videoURI, roundId, turnPreference, practiceType))
+    await dispatch(createPractice(videoURI, roundId, turnPreference, practiceType))
       .then(() => {
-        console.log("createPost dispatched successfully. Navigating to top...");
+        console.log("createPratice dispatched successfully. Navigating to top...");
       })
       .catch((error) => {
-        console.log("Dispatching createPost failed:", error);
+        console.log("Dispatching createPratice failed:", error);
       })
       .finally(() => {});
   };
@@ -223,7 +222,6 @@ export default function CameraScreen({ route, navigation }) {
     const { sound } = await Audio.Sound.createAsync(
       require("../../assets/voice/b.mp3")
     );
-
     setSound(sound);
     await sound.playAsync();
   }
@@ -263,7 +261,6 @@ export default function CameraScreen({ route, navigation }) {
   // }, [sound]);
 
   if (finishedRecording) {
-
     return <RelaxDetailScreen />;
   }
 

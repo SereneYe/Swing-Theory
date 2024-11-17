@@ -1,7 +1,6 @@
 import React from "react";
-import { View, Text, Image, ImageBackground } from "react-native";
+import { View, Text } from "react-native";
 import YoutubePlayer from 'react-native-youtube-iframe';
-import play from "../../assets/images/play.png";
 import styles from "./styles";
 
 const VideoPlay = ({ video }) => {

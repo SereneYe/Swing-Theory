@@ -12,7 +12,6 @@ import { hp } from "../../constants/common";
 import { theme } from "../../constants/theme";
 import ScreenWrapper from "../../components/screenWrapper/screenWrapper";
 import Avatar from "../../components/avartar/index";
-import Loading from "../../components/loading/index";
 import { Image } from "expo-image";
 import styles from "./styles";
 import {
@@ -27,28 +26,45 @@ import {
   UserIcon,
 } from "../../components/icons/icons";
 import { getUserInfo } from "../../services/user";
-import { fetchCurrentPost } from "../../services/historyPost";
-import HistoryCard from "../../components/historyCard";
-import RecordCard from "../../components/recordCard";
+import {getUserPost} from "../../services/getPost";
+import PostCard from "../../components/postCard";
+import { LogBox } from "react-native";
+
+LogBox.ignoreLogs([
+  "Support for defaultProps will be removed",
+]);
 
 const ProfileScreen = () => {
   const [user, setUser] = useState(() => getUserInfo());
   const [posts, setPosts] = useState([]);
+  const [refresh, setRefresh] = useState(false);
   const navigation = useNavigation();
-  const [hasMore, setHasMore] = useState(true);
 
   useFocusEffect(
-    useCallback(() => {
-      (async () => {
-        const data = await getUserInfo();
-        setUser(data);
-      })();
-    }, [])
+      useCallback(() => {
+        (async () => {
+          const data = await getUserInfo();
+          setUser(data);
+        })();
+      }, [])
   );
 
   useEffect(() => {
+    const fetchPosts = async () => {
+      const res = await getUserPost();
+      if (res.success) {
+        setPosts(res.data);
+      } else {
+        console.error("Failed to fetch posts: ", res.error);
+      }
+    };
+    fetchPosts();
+  }, [refresh]);
+
+
+  useEffect(() => {
     const focusListener = navigation.addListener("focus", () => {
-      getPosts();
+      setRefresh((prev) => !prev); // 切换 `refresh` 状态触发刷新
     });
 
     return () => {
@@ -56,13 +72,17 @@ const ProfileScreen = () => {
         focusListener();
       }
     };
-  }, []);
+  }, [navigation]);
+
+  const handlePostDeleted = () => {
+    setRefresh((prev) => !prev);
+  };
 
   const getPosts = async () => {
-    let res = await fetchCurrentPost();
+    let res = await getUserPost();
     if (res.success) {
       setPosts(res.data);
-      setHasMore(false);
+      console.log("posts",posts);
     } else {
       console.error("Failed to fetch posts: ", res.error);
     }
@@ -89,7 +109,6 @@ const ProfileScreen = () => {
 
   return (
     <ScreenWrapper bg="white">
-      {/* first create UserHeader and use it here, then move it to header comp when implementing user posts */}
       {/* posts */}
       <FlatList
         data={posts}
@@ -102,9 +121,9 @@ const ProfileScreen = () => {
           />
         }
         contentContainerStyle={styles.listStyle}
-        keyExtractor={(item, index) => item.recordId.toString()}
+        keyExtractor={(item, index) => item.post_id.toString()}
         renderItem={({ item }) => (
-          <RecordCard item={item} user={user} navigation={navigation} />
+          <PostCard item={item} user={user} navigation={navigation} onPostDeleted={handlePostDeleted} />
         )}
         onEndReached={() => {
           getPosts();
