@@ -12,6 +12,7 @@ const HomeProgressCard = ({data, index, navigation, status}) => {
             style={{
                 flex: 1,
                 height: index === 1 ? hp(18) : hp(16),
+                width:wp(26),
                 padding: 6,
                 alignSelf: "center",
                 backgroundColor: data.color,

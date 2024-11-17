@@ -46,7 +46,6 @@ const HomeScreen = () => {
                     <View style={styles.activitiesContainer}>
                         <Text style={styles.activitiesTitle1}>Practices</Text>
                         <View style={{flexDirection: "row"}}>
-
                             <FlatList
                                 data={practiceData}
                                 keyExtractor={(item) => item.id}
