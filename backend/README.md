@@ -1,6 +1,6 @@
 # Tennis_Stroke_Backend
 
- ![Build Status](https://img.shields.io/badge/build-passing-brightgreen) ![Version](https://img.shields.io/badge/version-1.0.0-green) ![License](https://img.shields.io/badge/license-MIT-green)
+ ![Build Status](https://img.shields.io/badge/build-passing-brightgreen) ![Version](https://img.shields.io/badge/version-0.5.1-blue) ![License](https://img.shields.io/badge/license-MIT-green)
 
 ## Description
 
@@ -27,8 +27,8 @@ Currently there are 3 services:
 
 ## How to run
 
-1. Ensure you have Python version = 3.8
-2. Ensure you have a MySQL instance running and change the DATABASE_URL under config/config.py from relational_data_service if necessary
+1. Ensure you have Python version >= 3.8
+2. Ensure you have MySQL running and change the DATABASE_URL under config/config.py from relational_data_service if necessary
 3. Ensure you have set up a Firebase project and you can get a credential JSON file by clicking *Generate new private key* from service accounts. Move it to config directory in video_process_service and rename it to "firebase_cred.json"
 4.  Ensure you have all dependencies mentioned in requirements.txt installed.
 5. Use CMD python to run app.py under each service

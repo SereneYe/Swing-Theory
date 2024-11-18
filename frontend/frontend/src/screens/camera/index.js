@@ -244,7 +244,9 @@ export default function CameraScreen({ route, navigation }) {
 
   async function playFinishSound() {
     const { sound } = await Audio.Sound.createAsync(
-        require("../../assets/voice/f.m4a")
+        // TODO: cannot find f.m4a
+        // require("../../assets/voice/f.m4a")
+        require("../../assets/voice/1.mp3")
     );
 
     setSound(sound);

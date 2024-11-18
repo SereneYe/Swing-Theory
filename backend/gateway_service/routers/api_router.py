@@ -82,6 +82,7 @@ class ProcessVideo(Resource):
         if not response['success']:
             return response, 201
 
+        print('ProcessVideo json', json.dumps(response['message']))
         response = (requests.post(f'{RELATIONAL_DATA_SERVICE}add_processed_results',
                                   json=json.dumps(response['message'])))
 
@@ -103,6 +104,7 @@ class GetAllRecords(Resource):
     @history_api.marshal_with(model, code=201)
     def post(self):
         response = (requests.post(f'{RELATIONAL_DATA_SERVICE}get_all_records', json=request.json))
+        print('GetAllRecords:', response.json() )
         return response.json(), 201
 
 @history_api.route('/get_record')

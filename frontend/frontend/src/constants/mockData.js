@@ -29,21 +29,21 @@ export const practiceData = [
 
 export const videoData = [
     {
-        description: "2 Hour Forehand Training",
-        duration: "45 Min",
+        description: "Forehand: THE BASICS",
+        duration: "40 Sec",
         type: "Forehand",
-       id:"kBB7ynB4sIU"
+       id:"gcbh1hKavx0"
     },
     {
-        description: "1.5 Hour Backhand Training",
-        duration: "40 Min",
+        description: "Backhand: THE BASICS",
+        duration: "3 Mi",
         type: "Backhand",
-        id:"EiswW8p17q4"
+        id:"WNnW9Dd2vMY"
     },
     {
-        description: "1 Hour Serve Practice",
-        duration: "30 Min",
+        description: "Serve: THE BASICS",
+        duration: "56 Sec",
         type: "Serve",
-        id:"Ax4IKl4lOU8"
+        id:"dIptTnc5pMU"
     },
 ];

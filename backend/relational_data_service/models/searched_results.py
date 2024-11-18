@@ -29,6 +29,9 @@ class SearchedRecord:
             "video": [video.to_dict() for video in self.videos] if self.videos is not None else ''
         }
 
+    # def __str__(self):
+    #     return f'record_id: {self.record_id} - created_date: {self.created_date}'
+
 
 class SearchedVideo:
     def __init__(self, processed_video_id, video_url, swing_key_frames=None, score=0, type='Forehand'):
@@ -126,6 +129,3 @@ class SearchedStrokeTypeStats:
             "pastScore": self.past_scores
         }
 
-
-class SearchedRecords:
-    pass

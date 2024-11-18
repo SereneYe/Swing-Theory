@@ -5,6 +5,8 @@ import cv2
 import joblib
 import numpy as np
 import pandas as pd
+from openai import OpenAI
+
 
 from services.upload_file_service import upload_file_to_firebase
 from config.config import UNPROCESSED_SAVE_PATH, YOLO_MODEL_PATH, PROCESSED_SAVE_PATH, FIREBASE_VIDEO_DIR, \
@@ -18,6 +20,8 @@ import errors.errors as Errors
 import requests
 from ultralytics import YOLO
 
+openai_api_key = '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'
+client = OpenAI(api_key=openai_api_key)
 
 def download_video(video_url, video_id):
     """
@@ -180,9 +184,9 @@ def compare_keypoints_position(player_dict, benchmark_dict):
         benchmark_x, benchmark_y = benchmark_dict[x_key], benchmark_dict[y_key]
 
         if player_y < benchmark_x:
-            comment += f' Raise your <strong>{KEYFRAME_COMMENT_KEY_VALUES[x_key[:-2]]}</strong>.\n'
+            comment += f' Raise your {KEYFRAME_COMMENT_KEY_VALUES[x_key[:-2]]}.\n'
         else:
-            comment += f' Lower your <strong>{KEYFRAME_COMMENT_KEY_VALUES[x_key[:-2]]}</strong>.\n'
+            comment += f' Lower your {KEYFRAME_COMMENT_KEY_VALUES[x_key[:-2]]}.\n'
     return comment
 
 
@@ -200,11 +204,28 @@ def score_keyframe(keyframe, benchmark):
     keyframe.score = int(score_by_distance(overall_distance))
     return keyframe
 
+def get_prompt(score, comment):
+    prompt = (f'suppose you are a tennis coach, given a score = {score} out of 100, and the comment {comment}. '
+              f'Write an encouraging instruction with no more than 25 words to the player or his single swing')
+    return prompt
+
+def get_ai_response(score, comment):
+    client = OpenAI(api_key=openai_api_key)
+    completion = client.chat.completions.create(
+        model="gpt-4o",
+        messages=[{'role': 'system', 'content': get_prompt(score, comment)}]
+    )
+    response = completion.choices[0].message.content
+    response = response.replace('"', '\'')
+    return completion.choices[0].message.content
 
 def rate_keyframe(keyframe: SwingKeyFrame):
     benchmark = get_benchmark(keyframe)
     scored_keyframe = score_keyframe(keyframe, benchmark)
     commented_keyframe = comment_keyframe(scored_keyframe)
+
+    print(f'rate_keyframe {scored_keyframe.score}, {commented_keyframe.comment}')
+    commented_keyframe.comment = get_ai_response(scored_keyframe.score, commented_keyframe.comment)
     return commented_keyframe
 
 

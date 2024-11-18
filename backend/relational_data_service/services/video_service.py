@@ -147,6 +147,7 @@ def _get_average_score_of_record(videos):
 
 
 def search_all_records(db, user_id, stroke_type):
+    print('search_all_records user_id =', user_id)
     query = Record.query
     conditions = []
 
@@ -159,15 +160,16 @@ def search_all_records(db, user_id, stroke_type):
 
         if conditions:
             query = query.filter(and_(*conditions))
+
+        query = query.order_by(Record.created_date.desc())
         records = query.all()
-        # print(f'search_all_records: {len(records)}')
 
         results = []
-
+        print('search_all_records', records)
         for record in records:
+
             searched_record = SearchedRecord(user_id, record.record_id, record.stroke_type,
                                              record.stroke_numbers, record.created_date)
-            # print(searched_record.to_dict())
 
             videos = search_processed_video_by_record_id(searched_record.record_id)
             searched_record.videos = videos
@@ -175,6 +177,7 @@ def search_all_records(db, user_id, stroke_type):
             # print(f'search_all_records = {searched_record.to_dict()}')
             results.append(searched_record)
 
+        print('search_all_records', len(results))
         return Response.success(results)
     except Exception as e:
         print(f'search_all_records: {e}')

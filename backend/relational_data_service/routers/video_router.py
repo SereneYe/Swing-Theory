@@ -30,21 +30,34 @@ def get_videos_by_user_id():  # put application's code here
 def add_processed_results():  # put application's code here
     try:
         # Extract query parameters
-        message = _convert_request_message_to_dict(request)
-
+        # message = _convert_request_message_to_dict(request)
+        message = json.loads(request.json)
+        print('add_processed_results message =', type(message))
         processed_video = message['processed_video']
+        print('add_processed_results processed_video =', processed_video)
 
         raw_video_id = processed_video['raw_video_id']
+        print('add_processed_results raw_video_id =', raw_video_id)
+
         url = processed_video['url']
+        print('add_processed_results url =', url)
+
         record_id = message["record_id"]
+        print('add_processed_results record_id =', record_id)
+
 
         keyframes = message['keyframes']
+        print('add_processed_results keyframes =', keyframes)
+
+
+        print(f'add_processed_results {raw_video_id}, {url}, {record_id}, {keyframes}')
         response = video_service.insert_processed_video_and_keyframes(db, raw_video_id, url, record_id, keyframes)
 
         # response = video_service.search_video_by_user_id(user_id)
         # return response
         return response.to_dict()
     except Exception as e:
+        print(f'add_processed_results {e.__repr__()}')
         return Response.failure(e.__repr__()).to_dict()
 
 @video_router.post('/add_record')
@@ -88,14 +101,24 @@ def get_all_records():
     try:
         data = request.json
         user_id = data['user_id']
+
         response = video_service.search_all_records(db, user_id, None)
 
+        print(f'get_all_records, response = {response}')
+
         new_message = []
+
+        print(f'get_all_records, len(response.message) = {len(response.message)}')
         for record in response.message:
+            print(f'get_all_records, record = {record}')
             new_message.append(record.to_dict())
+            print(f'get_all_records, message = {record.to_dict()}')
+
         response.message = new_message
+
         return response.to_dict()
     except Exception as e:
+        print('get_all_records', e.__repr__())
         return Response.failure(e.__repr__()).to_dict()
 
 @video_router.post("/get_record")
@@ -145,7 +168,9 @@ def delete_record():
 
 
 def _convert_request_message_to_dict(request):
+    print(request.values)
     message = request.json
     message = message.replace("'", '"')
     message = json.loads(message)
+    print('_convert_request_message_to_dict', message)
     return message

@@ -50,21 +50,23 @@ export const fetchCurrentPost = async () => {
     try {
         const userId = auth.currentUser.uid;
         // TODO: fetch current user posts
-        // const recordResponse = await getCurrentUserRecord(userId);
-        // if (recordResponse.success) {
-        //     return {success: true, data: recordResponse.message};
-        // }
+        const recordResponse = await getCurrentUserRecord(userId);
+        console.log('fetchCurrentPost' + recordResponse)
+        if (recordResponse.success) {
 
-        const recordCollection = collection(firestore, "results");
-        const q = query(recordCollection, where("userId", "==", userId));
-        const querySnapshot = await getDocs(q);
-        const records = [];
-        querySnapshot.forEach((doc) => {
-            records.push({
-                ...doc.data(),
-            });
-        });
-        return {success: true, data: records};
+            return {success: true, data: recordResponse.message};
+        }
+
+        // const recordCollection = collection(firestore, "results");
+        // const q = query(recordCollection, where("userId", "==", userId));
+        // const querySnapshot = await getDocs(q);
+        // const records = [];
+        // querySnapshot.forEach((doc) => {
+        //     records.push({
+        //         ...doc.data(),
+        //     });
+        // });
+        // return {success: true, data: records};
     } catch (error) {
         console.error("Error fetching posts: ", error);
         return {success: false, error};
@@ -80,23 +82,23 @@ export const fetchPostDetails = async (recordId) => {
     try {
         const userId = auth.currentUser.uid;
         // TODO: fetch current user posts
-        // const recordResponse = await getRecordDetail(userId, recordId);
-        // if (recordResponse.success) {
-        //     // await pushRecordToFirestore(recordResponse.message);
-        //     return {success: true, data: recordResponse.message};
-        // }
+        const recordResponse = await getRecordDetail(userId, recordId);
+        if (recordResponse.success) {
+            // await pushRecordToFirestore(recordResponse.message);
+            return {success: true, data: recordResponse.message};
+        }
 
-        const recordCollection = collection(firestore, "results");
-        const q = query(recordCollection, where("recordId", "==", recordId));
-        const querySnapshot = await getDocs(q);
-        let record = null;
-        querySnapshot.forEach((doc) => {
-            record = {
-                ...doc.data(),
-            };
-        });
+        // const recordCollection = collection(firestore, "results");
+        // const q = query(recordCollection, where("recordId", "==", recordId));
+        // const querySnapshot = await getDocs(q);
+        // let record = null;
+        // querySnapshot.forEach((doc) => {
+        //     record = {
+        //         ...doc.data(),
+        //     };
+        // });
 
-        return {success: true, data: record};
+        // return {success: true, data: record};
     } catch (error) {
         console.error("Error fetching posts: ", error);
         return {success: false, error};
@@ -207,11 +209,13 @@ async function getCurrentUserRecord(userId) {
         });
 
         console.log("POST request finished.");
+        console.log("POST request finished." + response);
         if (!response.ok) {
             console.error("POST request failed.", response.status);
             throw new Error("Request failed with status " + response.status);
         } else {
             const data = await response.json();
+            console.log('getCurrentUserRecord2')
             return data;
         }
     } catch (error) {
@@ -221,7 +225,6 @@ async function getCurrentUserRecord(userId) {
 }
 
 async function getCurrentUserRecord2(userId) {
-    return {success: false};
     return {
         success: true,
         message: [

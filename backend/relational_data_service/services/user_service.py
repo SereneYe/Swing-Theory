@@ -12,8 +12,6 @@ def add_user(db, user_id):
         if db_user is not None:
 
             return Response.success(f'user {user_id} already exists')
-
-
         db.session.commit()
         return Response.success('successfully inserted into record')
     except Exception as e:
