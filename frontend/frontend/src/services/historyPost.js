@@ -130,7 +130,7 @@ export const deletePostDetails = async (itemId) => {
         // const rawVideoCollection = collection(firestore, "results");
         // const docRef = doc(rawVideoCollection, itemId);
         // await deleteDoc(docRef);
-        // deleteRecordDetail(itemId);
+        deleteRecordDetail(itemId);
         return {success: true};
     } catch (error) {
         console.error("Error deleting posts: ", error);

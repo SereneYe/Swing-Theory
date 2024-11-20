@@ -115,7 +115,7 @@ export default function CameraScreen({ route, navigation }) {
       //   playLastSound();
       // }
       else {
-        playSound();
+        playFinishSound();
       }
       await new Promise((resolve) => setTimeout(resolve, 4550));
       playAlertSound();
@@ -244,9 +244,7 @@ export default function CameraScreen({ route, navigation }) {
 
   async function playFinishSound() {
     const { sound } = await Audio.Sound.createAsync(
-        // TODO: cannot find f.m4a
-        // require("../../assets/voice/f.m4a")
-        require("../../assets/voice/1.mp3")
+        require("../../assets/voice/f.m4a")
     );
 
     setSound(sound);

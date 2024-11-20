@@ -18,14 +18,28 @@ const HistoryScreen = () => {
     const [posts, setPosts] = useState([]);
     const [hasMore, setHasMore] = useState(true);
 
-    useEffect(
-        useCallback(() => {
-            (async () => {
-                const data = await getUserInfo();
-                setUser(data);
-            })();
-        }, [])
-    );
+    useEffect(() => {
+        const focusListener = navigation.addListener("focus", () => {
+            getPosts();
+        });
+
+        // Clean up the listener when the component unmounts
+        return () => {
+            if (focusListener) {
+                focusListener();
+            }
+        };
+    }, [navigation]);
+
+
+    // Fetch user info
+    useEffect(() => {
+        const fetchUserInfo = async () => {
+            const data = await getUserInfo();
+            setUser(data);
+        };
+        fetchUserInfo();
+    }, []);
 
     useEffect(() => {
         const focusListener = navigation.addListener("focus", () => {
@@ -40,15 +54,18 @@ const HistoryScreen = () => {
     }, []);
 
     const getPosts = async () => {
-        let res = await fetchCurrentPost();
-        if (res.success) {
-            setPosts(res.data);
-            setHasMore(false);
-        } else {
-            console.error("Failed to fetch posts: ", res.error);
+        try {
+            const res = await fetchCurrentPost();
+            if (res.success) {
+                setPosts(res.data);
+                setHasMore(false);
+            } else {
+                console.error("Failed to fetch posts: ", res.error);
+            }
+        } catch (error) {
+            console.error("Error fetching posts: ", error);
         }
     };
-
     return (
         <ScreenWrapper bg="white">
             <View style={styles.container}>
@@ -114,36 +131,3 @@ const HistoryScreen = () => {
 
 export default HistoryScreen;
 
-
-//useEffect(() => {
-//         const fetchPosts = async () => {
-//             const res = await fetchCurrentPost();
-//             if (res.success) {
-//                 setPosts(res.data);
-//                 setHasMore(false);
-//                 console.log("Fetched posts:", res.data);
-//             } else {
-//                 console.error("Failed to fetch posts: ", res.error);
-//             }
-//         };
-//         fetchPosts();
-//         const focusListener = navigation.addListener("focus", () => {
-//             setRefresh((prev) => !prev);
-//         });
-//
-//         return () => {
-//             if (focusListener) {
-//                 focusListener();
-//             }
-//         };
-//     }, [navigation, refresh]);
-//
-//     // 处理新增记录
-//     const handleRecordAdded = () => {
-//         setRefresh((prev) => !prev); // 切换 `refresh` 状态触发刷新
-//     };
-//
-//     // 处理删除记录
-//     const handleRecordDeleted = () => {
-//         setRefresh((prev) => !prev); // 切换 `refresh` 状态触发刷新
-//     };
