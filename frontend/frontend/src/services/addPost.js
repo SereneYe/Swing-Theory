@@ -99,8 +99,6 @@ export const createPost = async (data) => {
             created_at: formattedDate,
         };
 
-        console.log("Post data created", postData);
-
         // Save metadata to Firestore
         await setDoc(doc(firestore, "posts", postId), postData);
 

@@ -20,7 +20,6 @@ import Button from "../../components/button";
 import * as ImagePicker from "expo-image-picker";
 import {Video} from "expo-av";
 import {Image} from "expo-image";
-import { useDispatch } from "react-redux";
 import {createPost} from "../../services/addPost";
 
 const NewPostScreen = () => {
@@ -30,7 +29,6 @@ const NewPostScreen = () => {
     const [loading, setLoading] = useState(false);
     const [file, setFile] = useState(null);
     const [user, setUser] = useState(() => getUserInfo());
-    const dispatch = useDispatch();
 
     useEffect(
         useCallback(() => {

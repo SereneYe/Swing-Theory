@@ -82,7 +82,6 @@ const ProfileScreen = () => {
     let res = await getUserPost();
     if (res.success) {
       setPosts(res.data);
-      console.log("posts",posts);
     } else {
       console.error("Failed to fetch posts: ", res.error);
     }
